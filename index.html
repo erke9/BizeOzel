@@ -4,77 +4,88 @@
   <meta charset="UTF-8">
   <title>Sevgililer Günümüz</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #ffe6f0;
+      margin: 0;
+      height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      flex-direction: column;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #ffb6c1, #ffe6f0, #ffd1dc);
+      background-size: 600% 600%;
+      animation: gradientBG 15s ease infinite;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
     }
 
     h1 {
+      font-family: 'Pacifico', cursive;
       color: #d1006c;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #555;
-      font-size: 16px;
-      margin-bottom: 20px;
-      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+      line-height: 1.5;
     }
 
     input {
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
-      width: 200px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      width: 220px;
+      border-radius: 8px;
+      border: 2px solid #d1006c;
       text-align: center;
+      margin-bottom: 15px;
     }
 
     button {
-      margin-top: 15px;
-      padding: 10px 20px;
+      padding: 12px 25px;
       font-size: 16px;
-      border-radius: 5px;
+      border-radius: 8px;
       border: none;
       background-color: #4caf50;
       color: white;
       cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background-color 0.2s;
     }
 
     button:hover {
       background-color: #45a049;
+      transform: scale(1.05);
     }
 
     #error {
       color: red;
       margin-top: 10px;
+      font-weight: bold;
     }
 
-    /* Yeşil kalpler animasyonu */
-    .hearts {
+    /* Floating hearts */
+    .heart {
+      position: absolute;
       font-size: 24px;
       color: #4caf50;
-      position: absolute;
-      animation: floatUp 4s infinite;
+      animation: floatUp 6s linear infinite;
     }
 
     @keyframes floatUp {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-300px) rotate(360deg); opacity: 0; }
+      100% { transform: translateY(-400px) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-  <h1>💚 Sevgililer Günümüz 💚</h1>
-  <p>Bu siteyi seninle özel kılmak istedim.<br>Devam etmek için tanıştığımız tarihi gg.aa.yyyy şeklinde gir:</p>
+  <h1>Sevgililer günümüzü anlamlı kılacak şekilde dumduz bir şey almak yerine bizim için özel bir şey ürettim. Bunun için site oluşturmayı öğrendim. Hadi şimdi sitenin devamını görmek için tanıştığımız tarihi gg.aa.yyyy şeklinde gir.</h1>
 
   <input type="text" id="password" placeholder="GG.AA.YYYY">
   <button onclick="checkPassword()">Giriş Yap</button>
@@ -82,9 +93,11 @@
   <p id="error"></p>
 
   <!-- Kalpler -->
-  <div class="hearts" style="left: 20%;">💚</div>
-  <div class="hearts" style="left: 50%;">💚</div>
-  <div class="hearts" style="left: 80%;">💚</div>
+  <div class="heart" style="left:10%;">💚</div>
+  <div class="heart" style="left:30%;">💚</div>
+  <div class="heart" style="left:50%;">💚</div>
+  <div class="heart" style="left:70%;">💚</div>
+  <div class="heart" style="left:90%;">💚</div>
 
   <script>
     function checkPassword() {
