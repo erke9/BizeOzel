@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Mini Oyunlar Devam</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Pacifico', cursive;
+  color: #d1006c;
+  font-size: 26px;
+  max-width: 900px;
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.photo {
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 4px solid transparent;
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo:hover {
+  transform: scale(1.05);
+}
+
+#message {
+  margin-top: 30px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff1493;
+  min-height: 30px;
+  transition: all 0.3s ease;
+}
+
+.correct {
+  border-color: #4caf50 !important;
+}
+
+.wrong {
+  border-color: #ff4d6d !important;
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+</style>
+</head>
+
+<body>
+
+<h1>
+Sayili sorulardan bikmissindir artik diye tahmin ediyorum :D<br>
+Biraz da senin iyi oldugun, sana kolay gelen anlara gecelim ne dersinnn?<br><br>
+Asagidaki fotograflardan hangisi ilk bulusmamiza ait?<br>
+(kolaydan baslayalim dedim 😛)
+</h1>
+
+<div class="gallery">
+  <div class="photo" onclick="wrong(this)">
+    <img src="img1.jpg" alt="Foto 1">
+  </div>
+
+  <div class="photo" onclick="correct(this)">
+    <img src="img2.jpg" alt="Foto 2">
+  </div>
+
+  <div class="photo" onclick="wrong(this)">
+    <img src="img3.jpg" alt="Foto 3">
+  </div>
+
+  <div class="photo" onclick="wrong(this)">
+    <img src="img4.jpg" alt="Foto 4">
+  </div>
+</div>
+
+<div id="message"></div>
+
+<script>
+let solved = false;
+
+function wrong(el) {
+  if (solved) return;
+
+  el.classList.add("wrong");
+  document.getElementById("message").innerText =
+    "Hmmm yok bu degil 😄 Ama hic zorlamayacagim soz";
+
+  setTimeout(() => el.classList.remove("wrong"), 500);
+}
+
+function correct(el) {
+  if (solved) return;
+  solved = true;
+
+  el.classList.add("correct");
+  document.getElementById("message").innerText =
+    "Iste buuu 😌 Ben demistim sana, bu konuda cok iyisin diye 💚";
+
+  // buradan sonra ister otomatik gecis, ister buton ekleriz
+  // setTimeout(() => window.location.href = "page4.html", 3000);
+}
+</script>
+
+</body>
+</html>
