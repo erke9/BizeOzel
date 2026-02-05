@@ -1,159 +1,167 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Bizim Oyun</title>
+<meta charset="UTF-8">
+<title>Bizim Oyun</title>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle at top, #ffb6c1, #ffe6f0, #ffd1dc, #fff0f5);
-      overflow: hidden;
-      text-align: center;
-      animation: bgMove 20s infinite alternate;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #ffb6c1, #ffe6f0, #ffd1dc, #fff0f5);
+  overflow: hidden;
+  text-align: center;
+}
 
-    @keyframes bgMove {
-      0% { background-position: 0% 0%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 100%; }
-    }
+h1 {
+  font-family: 'Pacifico', cursive;
+  color: #d1006c;
+  font-size: 26px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
 
-    h1 {
-      font-family: 'Pacifico', cursive;
-      color: #d1006c;
-      font-size: 26px;
-      line-height: 1.5;
-      text-shadow: 2px 2px 4px #ffe6f0;
-      margin-bottom: 25px;
-    }
+input {
+  padding: 12px;
+  font-size: 16px;
+  width: 220px;
+  border-radius: 8px;
+  border: 2px solid #d1006c;
+  text-align: center;
+  margin-bottom: 15px;
+}
 
-    input {
-      padding: 12px;
-      font-size: 16px;
-      width: 220px;
-      border-radius: 8px;
-      border: 2px solid #d1006c;
-      text-align: center;
-      margin-bottom: 15px;
-    }
+button {
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    button {
-      padding: 12px 28px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-      background-color: #4caf50;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-    }
+#message {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.3s ease;
+}
 
-    button:hover {
-      transform: scale(1.05);
-    }
+/* Final romantik kutu */
+#finalBox {
+  position: absolute;
+  bottom: -300px;
+  opacity: 0;
+  width: 80%;
+  max-width: 600px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 20px;
+  padding: 25px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #d1006c;
+  transition: all 2s ease;
+}
 
-    #message {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #ff1493;
-      position: relative;
-      transition: all 0.3s ease;
-    }
+#finalBox.show {
+  bottom: 80px;
+  opacity: 1;
+}
 
-    .heart {
-      position: absolute;
-      font-size: 22px;
-      animation: floatUp linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-500px) rotate(360deg); opacity: 0; }
-    }
-  </style>
+#finalBox button {
+  margin-top: 20px;
+  background-color: #ff69b4;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>
-    Guzeel, simdi bas basa kaldik.<br>
-    Site public oldugu icin maalesef sifre koymak zorundaydim askitom.<br>
-    Hadi giriste oldugu gibi ufak hafiza oyunlariyla devam edelim nasil fikir :D<br>
-    Hadi simdi kac gundur birlikte oldugumuzu hesapla.<br>
-    Hayiiir hesap makinesi kullanamazsin (biraz da ben eglenmeyeyim mi :D).<br>
-    Zor oldugunu biliyorum ama yardim edecegim soz,<br>
-    sen bi denemeye basla yeter ki.
-  </h1>
+<h1>
+Guzeel, simdi bas basa kaldik.<br>
+Site public oldugu icin maalesef sifre koymak zorundaydim askitom.<br>
+Hadi giriste oldugu gibi ufak hafiza oyunlariyla devam edelim nasil fikir :D<br>
+Hadi simdi kac gundur birlikte oldugumuzu hesapla.<br>
+Hayiiir hesap makinesi kullanamazsin (biraz da ben eglenmeyeyim mi :D).<br>
+Zor oldugunu biliyorum ama yardim edecegim soz,<br>
+sen bi denemeye basla yeter ki.
+</h1>
 
-  <input type="number" id="daysInput" placeholder="Tahminin">
-  <button onclick="checkDays()">Kontrol Et</button>
+<input type="number" id="daysInput" placeholder="Tahminin">
+<button onclick="checkDays()">Kontrol Et</button>
 
-  <div id="message"></div>
+<div id="message"></div>
 
-  <!-- Kalpler -->
-  <div class="heart" style="left:10%; animation-duration:8s;">💚</div>
-  <div class="heart" style="left:30%; animation-duration:10s;">💖</div>
-  <div class="heart" style="left:50%; animation-duration:9s;">💚</div>
-  <div class="heart" style="left:70%; animation-duration:11s;">💖</div>
-  <div class="heart" style="left:90%; animation-duration:8s;">💚</div>
+<!-- Final romantik mesaj -->
+<div id="finalBox">
+  <div id="finalText"></div>
+  <button onclick="goNext()">Devam edelim askimmm!!!</button>
+</div>
 
-  <script>
-    const startDate = new Date(2020, 10, 28); // 28 Kasım 2020
-    let wrongCount = 0;
+<script>
+const startDate = new Date(2020, 10, 28);
+let wrongCount = 0;
 
-    function checkDays() {
-      const input = parseInt(document.getElementById("daysInput").value);
-      const message = document.getElementById("message");
+function checkDays() {
+  const input = parseInt(document.getElementById("daysInput").value);
+  const message = document.getElementById("message");
 
-      const today = new Date();
-      const diffTime = today - startDate;
-      const correctDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const today = new Date();
+  const diffTime = today - startDate;
+  const correctDays = Math.floor(diffTime / (1000*60*60*24));
 
-      if (input === correctDays) {
-        message.innerText = "Iste benim askim :D";
-        message.style.color = "#4caf50";
-        message.style.top = "0px";
-        return;
-      }
+  if (input === correctDays) {
+    message.innerText = "Iste benim askim :D";
+    message.style.color = "#4caf50";
 
-      wrongCount++;
+    setTimeout(() => showFinal(correctDays), 3000);
+    return;
+  }
 
-      if (wrongCount === 1) {
-        message.innerText = "Ilk denemenin gunahi olmaz :D";
-      } else if (wrongCount === 2) {
-        message.innerText = "Hadi askim yaparsin :D";
-      } else if (wrongCount === 3) {
-        message.innerText = "Pes etmek yoooook :D";
-      } else if (wrongCount === 4) {
-        message.innerText = "Askim hic acele yok :D";
-      } else {
-        const lower = correctDays - 10;
-        const upper = correctDays + 10;
-        message.innerText =
-          `Hadi al sana net bi ipucu: ${lower} - ${upper}`;
-      }
+  wrongCount++;
 
-      message.style.color = "#ff1493";
+  if (wrongCount === 1) message.innerText = "Ilk denemenin gunahi olmaz :D";
+  else if (wrongCount === 2) message.innerText = "Hadi askim yaparsin :D";
+  else if (wrongCount === 3) message.innerText = "Pes etmek yoooook :D";
+  else if (wrongCount === 4) message.innerText = "Askim hic acele yok :D";
+  else {
+    message.innerText = `Hadi al sana net bi ipucu: ${correctDays-10} - ${correctDays+10}`;
+  }
 
-      if (input < correctDays) {
-        message.style.top = "-20px";
-      } else {
-        message.style.top = "20px";
-      }
-    }
-  </script>
+  message.style.color = "#ff1493";
+}
+
+function showFinal(days) {
+  const box = document.getElementById("finalBox");
+  const text = document.getElementById("finalText");
+
+  text.innerHTML = `
+  Yaa, dile kolay <b>${days}</b> gun.<br><br>
+  Ama hala ilk gunku gibi hatta daha fazla asigim sana.<br>
+  Su an bunu yazarken gozlerim doldu gercekten.<br>
+  Planlamak yerine icimden geleni yaziyorum.<br><br>
+  Cok seviyorum seni bebegim.<br>
+  Daha coook uzun yillar var onumuzde, merak etme.<br><br>
+  Hadi simdi mini oyunlarimiza devam edelim ne dersin?
+  `;
+
+  box.classList.add("show");
+}
+
+function goNext() {
+  window.location.href = "page3.html";
+}
+</script>
 
 </body>
 </html>
