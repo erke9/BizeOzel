@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sevgililer Günümüz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #d1006c;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    /* Yeşil kalpler animasyonu */
+    .hearts {
+      font-size: 24px;
+      color: #4caf50;
+      position: absolute;
+      animation: floatUp 4s infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-300px) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💚 Sevgililer Günümüz 💚</h1>
+  <p>Bu siteyi seninle özel kılmak istedim.<br>Devam etmek için tanıştığımız tarihi gg.aa.yyyy şeklinde gir:</p>
+
+  <input type="text" id="password" placeholder="GG.AA.YYYY">
+  <button onclick="checkPassword()">Giriş Yap</button>
+
+  <p id="error"></p>
+
+  <!-- Kalpler -->
+  <div class="hearts" style="left: 20%;">💚</div>
+  <div class="hearts" style="left: 50%;">💚</div>
+  <div class="hearts" style="left: 80%;">💚</div>
+
+  <script>
+    function checkPassword() {
+      const password = document.getElementById("password").value;
+      if (password === "02.09.2020") {
+        window.location.href = "page2.html";
+      } else {
+        document.getElementById("error").innerText = "Tarihi yanlış girdin 😢";
+      }
+    }
+  </script>
+
+</body>
+</html>
