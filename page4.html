@@ -1,87 +1,88 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Iste o gunden beri...</title>
+<meta charset="UTF-8" />
+<title>Slayt</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
-  overflow:hidden;
-  font-family: Arial, sans-serif;
-}
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
+    overflow:hidden;
+    font-family: Arial, sans-serif;
+  }
 
-.slideshow{
-  width:min(900px, 88vw);
-  height:min(560px, 58vh);
-  border-radius:24px;
-  overflow:hidden;
-  position:relative;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-  background:#000;
-}
+  .slideshow{
+    width:min(900px, 88vw);
+    height:min(560px, 58vh);
+    border-radius:24px;
+    overflow:hidden;
+    position:relative;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    background:#000;
+  }
 
-/* Arka plan (blur) */
-.backdrop{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  filter: blur(18px);
-  transform: scale(1.12);
-  opacity:0.75;
-}
+  .backdrop{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    filter: blur(18px);
+    transform: scale(1.12);
+    opacity:0.75;
+  }
 
-/* Foto */
-.slide{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  opacity:0;
-  transition: opacity 1.2s ease;
-  z-index:2;
-}
-.slide.active{
-  opacity:1;
-}
+  .slide{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    opacity:0;
+    transition: opacity 1.2s ease;
+    z-index:2;
+  }
+  .slide.active{ opacity:1; }
 
-/* Ortadaki yazı */
-.overlayText{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:3;
-  pointer-events:none;
-  text-align:center;
-}
+  .overlayText{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:3;
+    pointer-events:none;
+    text-align:center;
+  }
 
-.overlayText span{
-  font-family:'Pacifico', cursive;
-  font-size:42px;
-  color:white;
-  text-shadow:0 4px 20px rgba(0,0,0,0.55);
-  opacity:0;
-  animation: textFade 2.2s ease forwards;
-  padding: 0 20px;
-}
+  .overlayText span{
+    font-family:'Pacifico', cursive;
+    font-size:42px;
+    color:white;
+    text-shadow:0 4px 20px rgba(0,0,0,0.55);
+    padding: 0 20px;
 
-@keyframes textFade{
-  0%   {opacity:0; transform:translateY(10px);}
-  30%  {opacity:1; transform:translateY(0);}
-  80%  {opacity:1;}
-  100% {opacity:0; transform:translateY(-10px);}
-}
+    /* ÖNEMLİ: default görünür olsun */
+    opacity: 1;
+  }
+
+  /* Yazı animasyonu */
+  .animateText{
+    animation: textFade 2.2s ease forwards;
+  }
+
+  @keyframes textFade{
+    0%   {opacity:0; transform:translateY(10px);}
+    30%  {opacity:1; transform:translateY(0);}
+    80%  {opacity:1;}
+    100% {opacity:0; transform:translateY(-10px);}
+  }
 </style>
 </head>
 
@@ -91,24 +92,24 @@ body{
   <div class="backdrop" id="backdrop"></div>
 
   <!-- 18 foto -->
-  <img class="slide active" src="photos/s1.jpg">
-  <img class="slide" src="photos/s2.jpg">
-  <img class="slide" src="photos/s3.jpg">
-  <img class="slide" src="photos/s4.jpg">
-  <img class="slide" src="photos/s5.jpg">
-  <img class="slide" src="photos/s6.jpg">
-  <img class="slide" src="photos/s7.jpg">
-  <img class="slide" src="photos/s8.jpg">
-  <img class="slide" src="photos/s9.jpg">
-  <img class="slide" src="photos/s10.jpg">
-  <img class="slide" src="photos/s11.jpg">
-  <img class="slide" src="photos/s12.jpg">
-  <img class="slide" src="photos/s13.jpg">
-  <img class="slide" src="photos/s14.jpg">
-  <img class="slide" src="photos/s15.jpg">
-  <img class="slide" src="photos/s16.jpg">
-  <img class="slide" src="photos/s17.jpg">
-  <img class="slide" src="photos/s18.jpg">
+  <img class="slide active" src="photos/s1.jpg" alt="s1">
+  <img class="slide" src="photos/s2.jpg" alt="s2">
+  <img class="slide" src="photos/s3.jpg" alt="s3">
+  <img class="slide" src="photos/s4.jpg" alt="s4">
+  <img class="slide" src="photos/s5.jpg" alt="s5">
+  <img class="slide" src="photos/s6.jpg" alt="s6">
+  <img class="slide" src="photos/s7.jpg" alt="s7">
+  <img class="slide" src="photos/s8.jpg" alt="s8">
+  <img class="slide" src="photos/s9.jpg" alt="s9">
+  <img class="slide" src="photos/s10.jpg" alt="s10">
+  <img class="slide" src="photos/s11.jpg" alt="s11">
+  <img class="slide" src="photos/s12.jpg" alt="s12">
+  <img class="slide" src="photos/s13.jpg" alt="s13">
+  <img class="slide" src="photos/s14.jpg" alt="s14">
+  <img class="slide" src="photos/s15.jpg" alt="s15">
+  <img class="slide" src="photos/s16.jpg" alt="s16">
+  <img class="slide" src="photos/s17.jpg" alt="s17">
+  <img class="slide" src="photos/s18.jpg" alt="s18">
 
   <div class="overlayText">
     <span id="overlaySpan"></span>
@@ -116,28 +117,69 @@ body{
 </div>
 
 <script>
-const slides = Array.from(document.querySelectorAll('.slide'));
-const backdrop = document.getElementById('backdrop');
-const textSpan = document.getElementById('overlaySpan');
+(() => {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const backdrop = document.getElementById('backdrop');
+  const textSpan = document.getElementById('overlaySpan');
 
-let idx = 0;
-const displayMs = 2600;
+  if (!slides.length || !backdrop || !textSpan) {
+    console.error("Slideshow elemanlari bulunamadi.");
+    return;
+  }
 
-// Foto indexine göre yazı
-function getTextForIndex(i){
-  if (i <= 1) return "Yeri geldi birbirimizden ayri kaldik.";
-  if (i <= 11) return "Yeri geldi beraber cocuk olduk.";
-  if (i <= 14) return "Yeri geldi beraber gezdik.";
-  return "Ama her zaman birbirimize askla baktik.";
-}
+  let idx = 0;
+  const displayMs = 2600;
 
-function showText(text){
-  textSpan.innerText = text;
-  textSpan.style.animation = "none";
-  textSpan.offsetHeight; // reset
-  textSpan.style.animation = "textFade 2.2s ease forwards";
-}
+  function getTextForIndex(i){
+    if (i <= 1) return "Yeri geldi birbirimizden ayri kaldik.";
+    if (i <= 11) return "Yeri geldi beraber cocuk olduk.";
+    if (i <= 14) return "Yeri geldi beraber gezdik.";
+    return "Ama her zaman birbirimize askla baktik.";
+  }
 
-function updateBackdrop(){
-  backdrop.style.backgroundImage =
-    `url('${slides[idx].getAttribute("src")}')`
+  function updateBackdrop(){
+    const src = slides[idx].getAttribute('src');
+    backdrop.style.backgroundImage = `url('${src}')`;
+  }
+
+  function showText(){
+    textSpan.textContent = getTextForIndex(idx);
+
+    // animasyonu yeniden başlat
+    textSpan.classList.remove('animateText');
+    void textSpan.offsetWidth;
+    textSpan.classList.add('animateText');
+  }
+
+  function step(){
+    try {
+      // ilk adımda da yazı + backdrop gelsin
+      updateBackdrop();
+      showText();
+
+      // son foto mu kontrolü bir sonraki geçişte
+      setTimeout(() => {
+        slides[idx].classList.remove('active');
+        idx++;
+
+        if (idx >= slides.length) {
+          setTimeout(() => window.location.href = "page5.html", 800);
+          return;
+        }
+
+        slides[idx].classList.add('active');
+        step();
+      }, displayMs);
+
+    } catch (e) {
+      console.error("Slideshow hata:", e);
+    }
+  }
+
+  // Başlat
+  step();
+})();
+</script>
+
+</body>
+</html>
