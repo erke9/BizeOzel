@@ -5,81 +5,99 @@
 <title>Mini Oyun</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 
-h1 {
-  font-family: 'Pacifico', cursive;
-  color: #d1006c;
-  font-size: 26px;
-  max-width: 900px;
-  line-height: 1.5;
-  margin-bottom: 40px;
-}
+  h1 {
+    font-family: 'Pacifico', cursive;
+    color: #d1006c;
+    font-size: 26px;
+    max-width: 900px;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    padding: 0 16px;
+  }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  width: 80%;
-  max-width: 600px;
-}
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 80%;
+    max-width: 600px;
+  }
 
-.photo {
-  border-radius: 15px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
+  .photo {
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
 
-.photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
-.photo:hover {
-  transform: scale(1.05);
-}
+  .photo:hover {
+    transform: scale(1.05);
+  }
 
-/* Emoji overlay */
-#emojiOverlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 120px;
-  opacity: 0;
-  pointer-events: none;
-  animation: fadeOut 1.5s forwards;
-}
+  /* Ortadaki emoji efekti */
+  #emojiOverlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+  }
 
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Sağ alt köşede 😛 */
+  #cornerEmoji {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    font-size: 60px;
+    opacity: 0.85;
+    transform: rotate(8deg);
+    pointer-events: none;
+    animation: wink 2.2s infinite ease-in-out;
+  }
+
+  @keyframes wink {
+    0%, 100% { transform: rotate(8deg) scale(1); }
+    50% { transform: rotate(8deg) scale(1.08); }
+  }
 </style>
 </head>
 
 <body>
 
 <h1>
-Sayili sorulardan bikmissindir artik diye tahmin ediyorum :D<br>
-Biraz da senin iyi oldugun sana kolay gelen anlara gecelim ne dersinnn?<br><br>
-Asagidaki fotograflardan hangisi ilk bulusmamiza ait?<br>
-(kolaydan baslayalim dedim 😛)
+  Sayili sorulardan bikmissindir artik diye tahmin ediyorum :D<br>
+  Biraz da senin iyi oldugun sana kolay gelen anlara gecelim ne dersinnn?<br><br>
+  Asagidaki fotograflardan hangisi ilk bulusmamiza ait?<br>
+  (kolaydan baslayalim dedim)
 </h1>
 
 <div class="gallery">
@@ -101,30 +119,38 @@ Asagidaki fotograflardan hangisi ilk bulusmamiza ait?<br>
 </div>
 
 <div id="emojiOverlay"></div>
+<div id="cornerEmoji">😛</div>
 
 <script>
-let solved = false;
+  let solved = false;
 
-function showEmoji(emoji) {
-  const overlay = document.getElementById("emojiOverlay");
-  overlay.innerText = emoji;
+  function showEmoji(emoji) {
+    const overlay = document.getElementById("emojiOverlay");
+    overlay.innerText = emoji;
 
-  // animasyonu resetlemek için
-  overlay.style.animation = "none";
-  overlay.offsetHeight; 
-  overlay.style.animation = "fadeOut 1.5s forwards";
-}
+    // animasyonu resetle
+    overlay.style.animation = "none";
+    overlay.offsetHeight;
+    overlay.style.opacity = "1";
+    overlay.style.animation = "fadeOut 1.5s forwards";
+  }
 
-function wrongAnswer() {
-  if (solved) return;
-  showEmoji("😠");
-}
+  function wrongAnswer() {
+    if (solved) return;
+    showEmoji("😠");
+  }
 
-function correctAnswer() {
-  if (solved) return;
-  solved = true;
-  showEmoji("🙂");
-}
+  function correctAnswer() {
+    if (solved) return;
+    solved = true;
+
+    showEmoji("🙂");
+
+    // 3 saniye sonra 4. sayfaya geç
+    setTimeout(() => {
+      window.location.href = "page4.html";
+    }, 3000);
+  }
 </script>
 
 </body>
