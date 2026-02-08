@@ -5,197 +5,139 @@
 <title>Iste o gunden beri...</title>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-  body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
-    overflow:hidden;
-    font-family: Arial, sans-serif;
-    text-align:center;
-  }
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
+  overflow:hidden;
+  font-family: Arial, sans-serif;
+}
 
-  /* Yazı: önce netleşsin, sonra silinip gitsin */
-  .title{
-    font-family:'Pacifico', cursive;
-    font-size:48px;
-    color:#d1006c;
-    padding: 0 16px;
-    text-shadow: 2px 2px 10px rgba(255,105,180,0.25);
+.slideshow{
+  width:min(900px, 88vw);
+  height:min(560px, 58vh);
+  border-radius:24px;
+  overflow:hidden;
+  position:relative;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  background:#000;
+}
 
-    opacity:0;
-    filter: blur(10px);
-    transform: translateY(10px);
+/* Arka plan (blur) */
+.backdrop{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter: blur(18px);
+  transform: scale(1.12);
+  opacity:0.75;
+}
 
-    animation:
-      titleIn 1.6s ease forwards,
-      titleOut 1.4s ease forwards;
-    animation-delay:
-      0s,
-      2.2s; /* 2.2s sonra silinmeye başlasın */
-    margin-bottom:30px;
-  }
+/* Foto */
+.slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  opacity:0;
+  transition: opacity 1.2s ease;
+  z-index:2;
+}
+.slide.active{
+  opacity:1;
+}
 
-  @keyframes titleIn{
-    0% { opacity:0; filter: blur(10px); transform: translateY(10px); }
-    100% { opacity:1; filter: blur(0px); transform: translateY(0px); }
-  }
+/* Ortadaki yazı */
+.overlayText{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:3;
+  pointer-events:none;
+  text-align:center;
+}
 
-  @keyframes titleOut{
-    0% { opacity:1; filter: blur(0px); transform: translateY(0px); }
-    100% { opacity:0; filter: blur(10px); transform: translateY(-10px); }
-  }
+.overlayText span{
+  font-family:'Pacifico', cursive;
+  font-size:42px;
+  color:white;
+  text-shadow:0 4px 20px rgba(0,0,0,0.55);
+  opacity:0;
+  animation: textFade 2.2s ease forwards;
+  padding: 0 20px;
+}
 
-  /* Slideshow alanı */
-  .slideshow{
-    width:min(900px, 88vw);
-    height:min(560px, 58vh);
-    border-radius:24px;
-    overflow:hidden;
-    position:relative;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(4px);
-
-    /* İlk foto gelene kadar gizli kalsın */
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 1s ease, transform 1s ease;
-  }
-
-  .slideshow.show{
-    opacity: 1;
-    transform: translateY(0px);
-  }
-
-  /* Blur arka plan katmanı */
-  .backdrop{
-    position:absolute;
-    inset:0;
-    background-size: cover;
-    background-position: center;
-    filter: blur(18px);
-    transform: scale(1.12);
-    opacity: 0.8;
-  }
-
-  /* Üstte asıl foto: kırpma yok, tam görünür */
-  .slide{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit: contain;          /* <-- kırpma yok */
-    opacity:0;
-    transition: opacity 1.2s ease;
-    z-index: 2;
-  }
-
-  .slide.active{
-    opacity:1;
-  }
-
-  /* Hafif parıltılar */
-  .sparkle{
-    position:fixed;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:#fff;
-    animation: floatUp linear infinite;
-    pointer-events:none;
-  }
-
-  @keyframes floatUp{
-    0% { transform: translateY(0) scale(1); opacity:0.55; }
-    100% { transform: translateY(-420px) scale(0); opacity:0; }
-  }
+@keyframes textFade{
+  0%   {opacity:0; transform:translateY(10px);}
+  30%  {opacity:1; transform:translateY(0);}
+  80%  {opacity:1;}
+  100% {opacity:0; transform:translateY(-10px);}
+}
 </style>
 </head>
 
 <body>
 
-  <div class="title">Iste o gunden beri...</div>
+<div class="slideshow">
+  <div class="backdrop" id="backdrop"></div>
 
-  <div class="slideshow" id="slideshow">
-    <div class="backdrop" id="backdrop"></div>
+  <!-- 18 foto -->
+  <img class="slide active" src="photos/s1.jpg">
+  <img class="slide" src="photos/s2.jpg">
+  <img class="slide" src="photos/s3.jpg">
+  <img class="slide" src="photos/s4.jpg">
+  <img class="slide" src="photos/s5.jpg">
+  <img class="slide" src="photos/s6.jpg">
+  <img class="slide" src="photos/s7.jpg">
+  <img class="slide" src="photos/s8.jpg">
+  <img class="slide" src="photos/s9.jpg">
+  <img class="slide" src="photos/s10.jpg">
+  <img class="slide" src="photos/s11.jpg">
+  <img class="slide" src="photos/s12.jpg">
+  <img class="slide" src="photos/s13.jpg">
+  <img class="slide" src="photos/s14.jpg">
+  <img class="slide" src="photos/s15.jpg">
+  <img class="slide" src="photos/s16.jpg">
+  <img class="slide" src="photos/s17.jpg">
+  <img class="slide" src="photos/s18.jpg">
 
-    <!-- 18 foto -->
-    <img class="slide active" src="photos/s1.jpg" alt="slide 1">
-    <img class="slide" src="photos/s2.jpg" alt="slide 2">
-    <img class="slide" src="photos/s3.jpg" alt="slide 3">
-    <img class="slide" src="photos/s4.jpg" alt="slide 4">
-    <img class="slide" src="photos/s5.jpg" alt="slide 5">
-    <img class="slide" src="photos/s6.jpg" alt="slide 6">
-    <img class="slide" src="photos/s7.jpg" alt="slide 7">
-    <img class="slide" src="photos/s8.jpg" alt="slide 8">
-    <img class="slide" src="photos/s9.jpg" alt="slide 9">
-    <img class="slide" src="photos/s10.jpg" alt="slide 10">
-    <img class="slide" src="photos/s11.jpg" alt="slide 11">
-    <img class="slide" src="photos/s12.jpg" alt="slide 12">
-    <img class="slide" src="photos/s13.jpg" alt="slide 13">
-    <img class="slide" src="photos/s14.jpg" alt="slide 14">
-    <img class="slide" src="photos/s15.jpg" alt="slide 15">
-    <img class="slide" src="photos/s16.jpg" alt="slide 16">
-    <img class="slide" src="photos/s17.jpg" alt="slide 17">
-    <img class="slide" src="photos/s18.jpg" alt="slide 18">
+  <div class="overlayText">
+    <span id="overlaySpan"></span>
   </div>
+</div>
 
 <script>
-  const slideshowEl = document.getElementById('slideshow');
-  const backdropEl = document.getElementById('backdrop');
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  let idx = 0;
+const slides = Array.from(document.querySelectorAll('.slide'));
+const backdrop = document.getElementById('backdrop');
+const textSpan = document.getElementById('overlaySpan');
 
-  const displayMs = 2600; // her foto ekranda kalma süresi
+let idx = 0;
+const displayMs = 2600;
 
-  function setBackdropFromCurrent() {
-    const src = slides[idx].getAttribute('src');
-    backdropEl.style.backgroundImage = `url('${src}')`;
-  }
+// Foto indexine göre yazı
+function getTextForIndex(i){
+  if (i <= 1) return "Yeri geldi birbirimizden ayri kaldik.";
+  if (i <= 11) return "Yeri geldi beraber cocuk olduk.";
+  if (i <= 14) return "Yeri geldi beraber gezdik.";
+  return "Ama her zaman birbirimize askla baktik.";
+}
 
-  function nextSlide(){
-    slides[idx].classList.remove('active');
-    idx++;
+function showText(text){
+  textSpan.innerText = text;
+  textSpan.style.animation = "none";
+  textSpan.offsetHeight; // reset
+  textSpan.style.animation = "textFade 2.2s ease forwards";
+}
 
-    // Son foto bittiyse page5'e geç
-    if (idx >= slides.length) {
-      setTimeout(() => {
-        window.location.href = "page5.html";
-      }, 800);
-      return;
-    }
-
-    slides[idx].classList.add('active');
-    setBackdropFromCurrent();
-  }
-
-  // Yazı kaybolsun -> sonra slideshow görünsün ve başlasın
-  // titleOut: 2.2s'de başlıyor, 1.4s sürüyor => ~3.6s sonunda tamamen gitmiş olur
-  setTimeout(() => {
-    slideshowEl.classList.add('show');
-    setBackdropFromCurrent();
-    setInterval(nextSlide, displayMs);
-  }, 3700);
-
-  // Hafif parıltı
-  function spawnSparkle(){
-    const s = document.createElement('div');
-    s.className = 'sparkle';
-    s.style.left = Math.random() * 100 + 'vw';
-    s.style.bottom = '-10px';
-    s.style.animationDuration = (4 + Math.random()*3) + 's';
-    s.style.opacity = (0.18 + Math.random()*0.4).toFixed(2);
-    document.body.appendChild(s);
-    setTimeout(() => s.remove(), 7000);
-  }
-  setInterval(spawnSparkle, 450);
-</script>
-
-</body>
-</html>
+function updateBackdrop(){
+  backdrop.style.backgroundImage =
+    `url('${slides[idx].getAttribute("src")}')`
