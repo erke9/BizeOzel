@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Mini Oyunlar Devam</title>
+<title>Mini Oyun</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
@@ -40,8 +40,7 @@ h1 {
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
-  border: 4px solid transparent;
-  transition: transform 0.3s ease, border 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .photo img {
@@ -55,30 +54,21 @@ h1 {
   transform: scale(1.05);
 }
 
-#message {
-  margin-top: 30px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff1493;
-  min-height: 30px;
-  transition: all 0.3s ease;
+/* Emoji overlay */
+#emojiOverlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 120px;
+  opacity: 0;
+  pointer-events: none;
+  animation: fadeOut 1.5s forwards;
 }
 
-.correct {
-  border-color: #4caf50 !important;
-}
-
-.wrong {
-  border-color: #ff4d6d !important;
-  animation: shake 0.4s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
 </style>
 </head>
@@ -87,54 +77,53 @@ h1 {
 
 <h1>
 Sayili sorulardan bikmissindir artik diye tahmin ediyorum :D<br>
-Biraz da senin iyi oldugun, sana kolay gelen anlara gecelim ne dersinnn?<br><br>
+Biraz da senin iyi oldugun sana kolay gelen anlara gecelim ne dersinnn?<br><br>
 Asagidaki fotograflardan hangisi ilk bulusmamiza ait?<br>
-(kolaydan baslayalim dedim 😛)
+(kolaydan baslayalim dedim burda sag asagi dogru dil cikaran emoji olsun 😛)
 </h1>
 
 <div class="gallery">
-  <div class="photo" onclick="wrong(this)">
+  <div class="photo" onclick="wrongAnswer()">
     <img src="img1.jpg" alt="Foto 1">
   </div>
 
-  <div class="photo" onclick="correct(this)">
+  <div class="photo" onclick="correctAnswer()">
     <img src="img2.jpg" alt="Foto 2">
   </div>
 
-  <div class="photo" onclick="wrong(this)">
+  <div class="photo" onclick="wrongAnswer()">
     <img src="img3.jpg" alt="Foto 3">
   </div>
 
-  <div class="photo" onclick="wrong(this)">
+  <div class="photo" onclick="wrongAnswer()">
     <img src="img4.jpg" alt="Foto 4">
   </div>
 </div>
 
-<div id="message"></div>
+<div id="emojiOverlay"></div>
 
 <script>
 let solved = false;
 
-function wrong(el) {
-  if (solved) return;
+function showEmoji(emoji) {
+  const overlay = document.getElementById("emojiOverlay");
+  overlay.innerText = emoji;
 
-  el.classList.add("wrong");
-  document.getElementById("message").innerText =
-    "Hmmm yok bu degil 😄 Ama hic zorlamayacagim soz";
-
-  setTimeout(() => el.classList.remove("wrong"), 500);
+  // animasyonu resetlemek için
+  overlay.style.animation = "none";
+  overlay.offsetHeight; 
+  overlay.style.animation = "fadeOut 1.5s forwards";
 }
 
-function correct(el) {
+function wrongAnswer() {
+  if (solved) return;
+  showEmoji("😠");
+}
+
+function correctAnswer() {
   if (solved) return;
   solved = true;
-
-  el.classList.add("correct");
-  document.getElementById("message").innerText =
-    "Iste buuu 😌 Ben demistim sana, bu konuda cok iyisin diye 💚";
-
-  // buradan sonra ister otomatik gecis, ister buton ekleriz
-  // setTimeout(() => window.location.href = "page4.html", 3000);
+  showEmoji("🙂");
 }
 </script>
 
