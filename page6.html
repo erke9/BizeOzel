@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Final</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+body{
+  margin:0;
+  background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
+  font-family: Arial, sans-serif;
+  text-align:center;
+  scroll-behavior:smooth;
+}
+
+.section{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
+
+.title{
+  font-family:'Pacifico', cursive;
+  font-size:42px;
+  color:#d1006c;
+  margin-bottom:30px;
+  opacity:0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn{
+  to { opacity:1; }
+}
+
+.startBtn{
+  padding:14px 28px;
+  font-size:18px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  background:#ff69b4;
+  color:white;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.startBtn:hover{
+  transform: scale(1.08);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
+
+video{
+  width:90%;
+  max-width:800px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  background:#000;
+}
+
+.darkOverlay{
+  position:fixed;
+  inset:0;
+  background:black;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 2s ease;
+  z-index:10;
+}
+
+.darkOverlay.show{
+  opacity:0.85;
+}
+
+.finalText{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Pacifico', cursive;
+  font-size:42px;
+  color:white;
+  opacity:0;
+  transition: opacity 2s ease;
+  z-index:11;
+}
+
+.finalText.show{
+  opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="section">
+  <div class="title">Yalniz degiliz 😌</div>
+  <button class="startBtn" id="startBtn">Buraya tikla</button>
+</div>
+
+<div class="section" id="sec1">
+  <video id="v1" playsinline controls>
+    <source src="videos/v1.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="section" id="sec2">
+  <video id="v2" playsinline controls>
+    <source src="videos/v2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="section" id="sec3">
+  <video id="v3" playsinline controls>
+    <source src="videos/v3.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- v4 ANA DİZİNDE -->
+<div class="section" id="sec4">
+  <video id="v4" playsinline controls>
+    <source src="v4.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="darkOverlay" id="dark"></div>
+<div class="finalText" id="finalMsg">
+  Sude Erke seni cok seviyor 💚
+</div>
+
+<script>
+const startBtn = document.getElementById("startBtn");
+const v1 = document.getElementById("v1");
+const v2 = document.getElementById("v2");
+const v3 = document.getElementById("v3");
+const v4 = document.getElementById("v4");
+
+const sec1 = document.getElementById("sec1");
+const sec2 = document.getElementById("sec2");
+const sec3 = document.getElementById("sec3");
+const sec4 = document.getElementById("sec4");
+
+const dark = document.getElementById("dark");
+const finalMsg = document.getElementById("finalMsg");
+
+function safePlay(video){
+  const p = video.play();
+  if (p && typeof p.catch === "function") p.catch(() => {});
+}
+
+startBtn.addEventListener("click", () => {
+  sec1.scrollIntoView({behavior:"smooth"});
+  setTimeout(()=> safePlay(v1), 800);
+});
+
+v1.addEventListener("ended", () => {
+  sec2.scrollIntoView({behavior:"smooth"});
+  setTimeout(()=> safePlay(v2), 800);
+});
+
+v2.addEventListener("ended", () => {
+  sec3.scrollIntoView({behavior:"smooth"});
+  setTimeout(()=> safePlay(v3), 800);
+});
+
+v3.addEventListener("ended", () => {
+  sec4.scrollIntoView({behavior:"smooth"});
+  setTimeout(()=> safePlay(v4), 800);
+});
+
+v4.addEventListener("ended", () => {
+  setTimeout(()=>{
+    dark.classList.add("show");
+    finalMsg.classList.add("show");
+  }, 800);
+});
+</script>
+
+</body>
+</html>
