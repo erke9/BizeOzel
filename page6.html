@@ -13,6 +13,7 @@ body{
   font-family: Arial, sans-serif;
   text-align:center;
   scroll-behavior:smooth;
+  overflow-x:hidden;
 }
 
 .section{
@@ -29,6 +30,7 @@ body{
   font-size:42px;
   color:#d1006c;
   margin-bottom:30px;
+  text-shadow: 2px 2px 12px rgba(255,105,180,0.25);
 }
 
 .startBtn{
@@ -47,37 +49,53 @@ body{
   box-shadow: 0 10px 22px rgba(0,0,0,0.15);
 }
 
-/* Video geçiş efekti */
+/* Video bölümü: önce gizli, sonra fade-in + hafif yükselme */
 .videoSection{
   display:none;
   opacity:0;
-  transform: translateY(20px);
+  transform: translateY(22px);
   transition: opacity 1.2s ease, transform 1.2s ease;
 }
-
 .videoSection.show{
   display:flex;
   opacity:1;
   transform: translateY(0);
 }
 
+/* Video görünümü + glow */
 video{
   width:90%;
   max-width:800px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  border-radius:22px;
   background:#000;
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.22),
+    0 0 22px rgba(255,105,180,0.28);
+  outline: none;
 }
 
-/* Son ekran */
+/* Sinematik karartma (geçişte kısa süre) */
+.cinemaFade{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.0);
+  pointer-events:none;
+  z-index:50;
+  transition: background 0.35s ease;
+}
+.cinemaFade.on{
+  background: rgba(0,0,0,0.35);
+}
+
+/* Final karartma + yazı */
 .darkOverlay{
   position:fixed;
   inset:0;
   background:black;
   opacity:0;
   pointer-events:none;
-  transition: opacity 2s ease;
-  z-index:10;
+  transition: opacity 1.8s ease;
+  z-index:60;
 }
 .darkOverlay.show{ opacity:0.85; }
 
@@ -91,10 +109,27 @@ video{
   font-size:42px;
   color:white;
   opacity:0;
-  transition: opacity 2s ease;
-  z-index:11;
+  transition: opacity 1.8s ease;
+  z-index:70;
+  padding: 0 18px;
 }
 .finalText.show{ opacity:1; }
+
+/* Kalp animasyonu */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:22px;
+  opacity:0.0;
+  z-index:80;
+  pointer-events:none;
+  animation: floatHeart linear forwards;
+}
+@keyframes floatHeart{
+  0% { transform: translateY(0) scale(0.9); opacity:0; }
+  15% { opacity:0.9; }
+  100% { transform: translateY(-110vh) scale(1.3); opacity:0; }
+}
 </style>
 </head>
 
@@ -129,10 +164,9 @@ video{
   </video>
 </div>
 
+<div class="cinemaFade" id="cinemaFade"></div>
 <div class="darkOverlay" id="dark"></div>
-<div class="finalText" id="finalMsg">
-  Sude Erke seni cok seviyor 💚
-</div>
+<div class="finalText" id="finalMsg">Sude Erke seni cok seviyor 💚</div>
 
 <script>
 const sec1 = document.getElementById("sec1");
@@ -145,6 +179,7 @@ const v2 = document.getElementById("v2");
 const v3 = document.getElementById("v3");
 const v4 = document.getElementById("v4");
 
+const cinemaFade = document.getElementById("cinemaFade");
 const dark = document.getElementById("dark");
 const finalMsg = document.getElementById("finalMsg");
 
@@ -159,32 +194,50 @@ function reveal(section){
   section.scrollIntoView({behavior:"smooth"});
 }
 
-function start(){
-  reveal(sec1);
-  setTimeout(()=> safePlay(v1), 800);
+function cinematicCut(){
+  cinemaFade.classList.add("on");
+  setTimeout(()=> cinemaFade.classList.remove("on"), 520);
 }
 
-v1.addEventListener("ended", ()=>{
-  reveal(sec2);
-  setTimeout(()=> safePlay(v2), 800);
-});
+function goNext(section, video){
+  cinematicCut();
+  reveal(section);
+  setTimeout(()=> safePlay(video), 850);
+}
 
-v2.addEventListener("ended", ()=>{
-  reveal(sec3);
-  setTimeout(()=> safePlay(v3), 800);
-});
+function start(){
+  goNext(sec1, v1);
+}
 
-v3.addEventListener("ended", ()=>{
-  reveal(sec4);
-  setTimeout(()=> safePlay(v4), 800);
-});
+v1.addEventListener("ended", ()=> goNext(sec2, v2));
+v2.addEventListener("ended", ()=> goNext(sec3, v3));
+v3.addEventListener("ended", ()=> goNext(sec4, v4));
 
 v4.addEventListener("ended", ()=>{
   setTimeout(()=>{
     dark.classList.add("show");
     finalMsg.classList.add("show");
-  }, 800);
+    startHearts();
+  }, 650);
 });
+
+// Final kalpler
+let heartTimer = null;
+function spawnHeart(){
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.textContent = "💚";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.animationDuration = (4 + Math.random()*3) + "s";
+  h.style.fontSize = (18 + Math.random()*18) + "px";
+  document.body.appendChild(h);
+  setTimeout(()=> h.remove(), 8000);
+}
+
+function startHearts(){
+  if (heartTimer) return;
+  heartTimer = setInterval(spawnHeart, 260);
+}
 </script>
 
 </body>
