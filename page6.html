@@ -5,225 +5,186 @@
 <title>Final</title>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-  body{
-    margin:0;
-    background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
-    font-family: Arial, sans-serif;
-    text-align:center;
-    scroll-behavior:smooth;
-  }
+body{
+  margin:0;
+  background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
+  font-family: Arial, sans-serif;
+  text-align:center;
+  scroll-behavior:smooth;
+}
 
-  .section{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:40px 20px;
-  }
+.section{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
 
-  .title{
-    font-family:'Pacifico', cursive;
-    font-size:42px;
-    color:#d1006c;
-    margin:0 0 22px 0;
-    padding:0 16px;
-    text-shadow: 2px 2px 12px rgba(255,105,180,0.25);
-  }
+.title{
+  font-family:'Pacifico', cursive;
+  font-size:42px;
+  color:#d1006c;
+  margin-bottom:30px;
+}
 
-  /* BUTONUN TIKLANMASI İÇİN: üstte ve tıklanabilir */
-  .startBtn{
-    position: relative;
-    z-index: 9999;
-    pointer-events: auto;
+.startBtn{
+  padding:14px 28px;
+  font-size:18px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  background:#ff69b4;
+  color:white;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.startBtn:hover{
+  transform: scale(1.08);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
 
-    padding:14px 28px;
-    font-size:18px;
-    border-radius:30px;
-    border:none;
-    cursor:pointer;
-    font-weight:bold;
-    background:#ff69b4;
-    color:white;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .startBtn:hover{
-    transform: scale(1.08);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.15);
-  }
+/* Video geçiş efekti */
+.videoSection{
+  display:none;
+  opacity:0;
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
 
-  video{
-    width:90%;
-    max-width:800px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    background:#000;
-  }
+.videoSection.show{
+  display:flex;
+  opacity:1;
+  transform: translateY(0);
+}
 
-  .hint{
-    margin-top:12px;
-    color:#a30054;
-    font-size:14px;
-    opacity:0.85;
-  }
+video{
+  width:90%;
+  max-width:800px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  background:#000;
+}
 
-  .darkOverlay{
-    position:fixed;
-    inset:0;
-    background:black;
-    opacity:0;
-    pointer-events:none;
-    transition: opacity 2s ease;
-    z-index:10;
-  }
-  .darkOverlay.show{ opacity:0.85; }
+/* Son ekran */
+.darkOverlay{
+  position:fixed;
+  inset:0;
+  background:black;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 2s ease;
+  z-index:10;
+}
+.darkOverlay.show{ opacity:0.85; }
 
-  .finalText{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:'Pacifico', cursive;
-    font-size:42px;
-    color:white;
-    opacity:0;
-    transition: opacity 2s ease;
-    z-index:11;
-    padding: 0 18px;
-    text-align:center;
-  }
-  .finalText.show{ opacity:1; }
-
-  /* V4 yoksa gösterilecek placeholder */
-  .placeholder{
-    width:90%;
-    max-width:800px;
-    height:420px;
-    border-radius:20px;
-    border:3px dashed #d1006c;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#d1006c;
-    font-family:'Pacifico', cursive;
-    font-size:26px;
-    background: rgba(255,255,255,0.25);
-  }
+.finalText{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Pacifico', cursive;
+  font-size:42px;
+  color:white;
+  opacity:0;
+  transition: opacity 2s ease;
+  z-index:11;
+}
+.finalText.show{ opacity:1; }
 </style>
 </head>
 
 <body>
 
-<!-- GİRİŞ EKRANI -->
-<div class="section" id="intro">
+<div class="section">
   <div class="title">Yalniz degiliz 😌</div>
   <button class="startBtn" onclick="start()">Buraya tikla</button>
-  <div class="hint">Butona dokununca videolar acilacak ve sirayla devam edecek 💚</div>
 </div>
 
-<!-- VİDEOLAR BAŞTA KESİN GİZLİ: inline style -->
-<div class="section" id="sec1" style="display:none;">
+<div class="section videoSection" id="sec1">
   <video id="v1" playsinline controls>
     <source src="videos/v1.mp4" type="video/mp4">
   </video>
 </div>
 
-<div class="section" id="sec2" style="display:none;">
+<div class="section videoSection" id="sec2">
   <video id="v2" playsinline controls>
     <source src="videos/v2.mp4" type="video/mp4">
   </video>
 </div>
 
-<div class="section" id="sec3" style="display:none;">
+<div class="section videoSection" id="sec3">
   <video id="v3" playsinline controls>
     <source src="videos/v3.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- V4 ana dizinde: v4.mp4 -->
-<div class="section" id="sec4" style="display:none;">
+<div class="section videoSection" id="sec4">
   <video id="v4" playsinline controls>
     <source src="v4.mp4" type="video/mp4">
   </video>
-
-  <!-- v4.mp4 yoksa bu placeholder görünsün -->
-  <div id="ph" class="placeholder" style="display:none; margin-top:18px;">
-    Buraya benim videom gelecek 💚
-  </div>
 </div>
 
 <div class="darkOverlay" id="dark"></div>
-<div class="finalText" id="finalMsg">Sude Erke seni cok seviyor 💚</div>
+<div class="finalText" id="finalMsg">
+  Sude Erke seni cok seviyor 💚
+</div>
 
 <script>
-  const sec1 = document.getElementById("sec1");
-  const sec2 = document.getElementById("sec2");
-  const sec3 = document.getElementById("sec3");
-  const sec4 = document.getElementById("sec4");
+const sec1 = document.getElementById("sec1");
+const sec2 = document.getElementById("sec2");
+const sec3 = document.getElementById("sec3");
+const sec4 = document.getElementById("sec4");
 
-  const v1 = document.getElementById("v1");
-  const v2 = document.getElementById("v2");
-  const v3 = document.getElementById("v3");
-  const v4 = document.getElementById("v4");
+const v1 = document.getElementById("v1");
+const v2 = document.getElementById("v2");
+const v3 = document.getElementById("v3");
+const v4 = document.getElementById("v4");
 
-  const ph = document.getElementById("ph");
-  const dark = document.getElementById("dark");
-  const finalMsg = document.getElementById("finalMsg");
+const dark = document.getElementById("dark");
+const finalMsg = document.getElementById("finalMsg");
 
-  function safePlay(video){
-    const p = video.play();
-    if (p && typeof p.catch === "function") p.catch(()=>{});
-  }
+function safePlay(video){
+  const p = video.play();
+  if (p && typeof p.catch === "function") p.catch(()=>{});
+}
 
-  // v4.mp4 gerçekten var mı? (tarayıcı yükleyebiliyor mu)
-  function v4Exists(){
-    const src = v4.querySelector("source")?.getAttribute("src");
-    if (!src) return false;
-    // v4'ün metadata yüklenmesini deneyelim
-    return true;
-  }
+function reveal(section){
+  section.style.display = "flex";
+  setTimeout(()=> section.classList.add("show"), 50);
+  section.scrollIntoView({behavior:"smooth"});
+}
 
-  function start(){
-    // 1) ilk video bölümünü aç
-    sec1.style.display = "flex";
-    sec1.scrollIntoView({behavior:"smooth"});
-    setTimeout(()=> safePlay(v1), 600);
-  }
+function start(){
+  reveal(sec1);
+  setTimeout(()=> safePlay(v1), 800);
+}
 
-  v1.addEventListener("ended", () => {
-    sec2.style.display = "flex";
-    sec2.scrollIntoView({behavior:"smooth"});
-    setTimeout(()=> safePlay(v2), 600);
-  });
+v1.addEventListener("ended", ()=>{
+  reveal(sec2);
+  setTimeout(()=> safePlay(v2), 800);
+});
 
-  v2.addEventListener("ended", () => {
-    sec3.style.display = "flex";
-    sec3.scrollIntoView({behavior:"smooth"});
-    setTimeout(()=> safePlay(v3), 600);
-  });
+v2.addEventListener("ended", ()=>{
+  reveal(sec3);
+  setTimeout(()=> safePlay(v3), 800);
+});
 
-  v3.addEventListener("ended", () => {
-    sec4.style.display = "flex";
-    sec4.scrollIntoView({behavior:"smooth"});
+v3.addEventListener("ended", ()=>{
+  reveal(sec4);
+  setTimeout(()=> safePlay(v4), 800);
+});
 
-    // v4.mp4 yoksa placeholder göster
-    // v4 video dosyası yoksa play() zaten başlamaz; o durumda placeholder görünsün
-    setTimeout(()=>{
-      safePlay(v4);
-      // 1 saniye sonra hâlâ başlamadıysa placeholder aç
-      setTimeout(()=>{
-        if (v4.paused) ph.style.display = "flex";
-      }, 1000);
-    }, 600);
-  });
-
-  v4.addEventListener("ended", () => {
+v4.addEventListener("ended", ()=>{
+  setTimeout(()=>{
     dark.classList.add("show");
     finalMsg.classList.add("show");
-  });
+  }, 800);
+});
 </script>
 
 </body>
