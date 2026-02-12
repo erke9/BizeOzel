@@ -11,18 +11,20 @@ body{
   margin:0;
   background: radial-gradient(circle at top, #ffe6f0, #ffd1dc, #fff0f5);
   font-family: Arial, sans-serif;
-  text-align:center;
   scroll-behavior:smooth;
   overflow-x:hidden;
 }
 
-.section{
+/* INTRO HER ZAMAN ÜSTTE */
+#intro{
   min-height:100vh;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding:40px 20px;
+  text-align:center;
+  position:relative;
+  z-index:9999; /* kritik */
 }
 
 .title{
@@ -30,7 +32,6 @@ body{
   font-size:42px;
   color:#d1006c;
   margin-bottom:30px;
-  text-shadow: 2px 2px 12px rgba(255,105,180,0.25);
 }
 
 .startBtn{
@@ -42,60 +43,55 @@ body{
   font-weight:bold;
   background:#ff69b4;
   color:white;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.startBtn:hover{
-  transform: scale(1.08);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.15);
 }
 
-/* Video bölümü: önce gizli, sonra fade-in + hafif yükselme */
-.videoSection{
-  display:none;
-  opacity:0;
-  transform: translateY(22px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
-}
-.videoSection.show{
+.section{
+  min-height:100vh;
   display:flex;
-  opacity:1;
-  transform: translateY(0);
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 1s ease, transform 1s ease;
 }
 
-/* Video görünümü + glow */
+.section.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
 video{
   width:90%;
   max-width:800px;
   border-radius:22px;
-  background:#000;
   box-shadow:
     0 14px 28px rgba(0,0,0,0.22),
-    0 0 22px rgba(255,105,180,0.28);
-  outline: none;
+    0 0 25px rgba(255,105,180,0.35);
+  background:#000;
 }
 
-/* Sinematik karartma (geçişte kısa süre) */
-.cinemaFade{
-  position:fixed;
-  inset:0;
-  background: rgba(0,0,0,0.0);
-  pointer-events:none;
-  z-index:50;
-  transition: background 0.35s ease;
-}
-.cinemaFade.on{
-  background: rgba(0,0,0,0.35);
-}
-
-/* Final karartma + yazı */
-.darkOverlay{
+/* sinematik geçiş */
+.fadeLayer{
   position:fixed;
   inset:0;
   background:black;
   opacity:0;
   pointer-events:none;
-  transition: opacity 1.8s ease;
-  z-index:60;
+  transition:opacity 0.4s ease;
+  z-index:5000;
+}
+.fadeLayer.show{ opacity:0.4; }
+
+/* final */
+.darkOverlay{
+  position:fixed;
+  inset:0;
+  background:black;
+  opacity:0;
+  transition:opacity 2s ease;
+  pointer-events:none;
+  z-index:6000;
 }
 .darkOverlay.show{ opacity:0.85; }
 
@@ -109,134 +105,117 @@ video{
   font-size:42px;
   color:white;
   opacity:0;
-  transition: opacity 1.8s ease;
-  z-index:70;
-  padding: 0 18px;
+  transition:opacity 2s ease;
+  z-index:7000;
 }
 .finalText.show{ opacity:1; }
 
-/* Kalp animasyonu */
+/* kalpler */
 .heart{
   position:fixed;
   bottom:-20px;
   font-size:22px;
-  opacity:0.0;
-  z-index:80;
+  opacity:0;
+  animation:floatHeart linear forwards;
   pointer-events:none;
-  animation: floatHeart linear forwards;
+  z-index:8000;
 }
 @keyframes floatHeart{
-  0% { transform: translateY(0) scale(0.9); opacity:0; }
-  15% { opacity:0.9; }
-  100% { transform: translateY(-110vh) scale(1.3); opacity:0; }
+  0% {transform:translateY(0);opacity:0;}
+  15%{opacity:1;}
+  100%{transform:translateY(-110vh);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="section">
+<div id="intro">
   <div class="title">Yalniz degiliz 😌</div>
   <button class="startBtn" onclick="start()">Buraya tikla</button>
 </div>
 
-<div class="section videoSection" id="sec1">
-  <video id="v1" playsinline controls>
-    <source src="videos/v1.mp4" type="video/mp4">
-  </video>
-</div>
+<div id="container"></div>
 
-<div class="section videoSection" id="sec2">
-  <video id="v2" playsinline controls>
-    <source src="videos/v2.mp4" type="video/mp4">
-  </video>
-</div>
-
-<div class="section videoSection" id="sec3">
-  <video id="v3" playsinline controls>
-    <source src="videos/v3.mp4" type="video/mp4">
-  </video>
-</div>
-
-<div class="section videoSection" id="sec4">
-  <video id="v4" playsinline controls>
-    <source src="v4.mp4" type="video/mp4">
-  </video>
-</div>
-
-<div class="cinemaFade" id="cinemaFade"></div>
+<div class="fadeLayer" id="fadeLayer"></div>
 <div class="darkOverlay" id="dark"></div>
 <div class="finalText" id="finalMsg">Sude Erke seni cok seviyor 💚</div>
 
 <script>
-const sec1 = document.getElementById("sec1");
-const sec2 = document.getElementById("sec2");
-const sec3 = document.getElementById("sec3");
-const sec4 = document.getElementById("sec4");
-
-const v1 = document.getElementById("v1");
-const v2 = document.getElementById("v2");
-const v3 = document.getElementById("v3");
-const v4 = document.getElementById("v4");
-
-const cinemaFade = document.getElementById("cinemaFade");
+const container = document.getElementById("container");
+const fadeLayer = document.getElementById("fadeLayer");
 const dark = document.getElementById("dark");
 const finalMsg = document.getElementById("finalMsg");
 
-function safePlay(video){
-  const p = video.play();
-  if (p && typeof p.catch === "function") p.catch(()=>{});
+const videos = [
+  "videos/v1.mp4",
+  "videos/v2.mp4",
+  "videos/v3.mp4",
+  "v4.mp4"
+];
+
+let index = 0;
+
+function cinematicFlash(){
+  fadeLayer.classList.add("show");
+  setTimeout(()=> fadeLayer.classList.remove("show"), 450);
 }
 
-function reveal(section){
-  section.style.display = "flex";
+function createSection(src){
+  cinematicFlash();
+
+  const section = document.createElement("div");
+  section.className = "section";
+
+  const video = document.createElement("video");
+  video.src = src;
+  video.controls = true;
+  video.playsInline = true;
+
+  section.appendChild(video);
+  container.appendChild(section);
+
   setTimeout(()=> section.classList.add("show"), 50);
   section.scrollIntoView({behavior:"smooth"});
-}
 
-function cinematicCut(){
-  cinemaFade.classList.add("on");
-  setTimeout(()=> cinemaFade.classList.remove("on"), 520);
-}
+  setTimeout(()=> video.play().catch(()=>{}), 700);
 
-function goNext(section, video){
-  cinematicCut();
-  reveal(section);
-  setTimeout(()=> safePlay(video), 850);
+  video.addEventListener("ended", ()=>{
+    index++;
+    if(index < videos.length){
+      createSection(videos[index]);
+    } else {
+      setTimeout(()=>{
+        dark.classList.add("show");
+        finalMsg.classList.add("show");
+        startHearts();
+      },600);
+    }
+  });
 }
 
 function start(){
-  goNext(sec1, v1);
+  document.getElementById("intro").style.pointerEvents="none";
+  index = 0;
+  createSection(videos[index]);
 }
 
-v1.addEventListener("ended", ()=> goNext(sec2, v2));
-v2.addEventListener("ended", ()=> goNext(sec3, v3));
-v3.addEventListener("ended", ()=> goNext(sec4, v4));
-
-v4.addEventListener("ended", ()=>{
-  setTimeout(()=>{
-    dark.classList.add("show");
-    finalMsg.classList.add("show");
-    startHearts();
-  }, 650);
-});
-
-// Final kalpler
-let heartTimer = null;
+/* kalpler */
 function spawnHeart(){
   const h = document.createElement("div");
-  h.className = "heart";
-  h.textContent = "💚";
-  h.style.left = Math.random() * 100 + "vw";
-  h.style.animationDuration = (4 + Math.random()*3) + "s";
-  h.style.fontSize = (18 + Math.random()*18) + "px";
+  h.className="heart";
+  h.textContent="💚";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(4+Math.random()*3)+"s";
+  h.style.fontSize=(18+Math.random()*18)+"px";
   document.body.appendChild(h);
-  setTimeout(()=> h.remove(), 8000);
+  setTimeout(()=>h.remove(),8000);
 }
 
+let heartInterval=null;
 function startHearts(){
-  if (heartTimer) return;
-  heartTimer = setInterval(spawnHeart, 260);
+  if(heartInterval) return;
+  heartInterval=setInterval(spawnHeart,250);
 }
 </script>
 
